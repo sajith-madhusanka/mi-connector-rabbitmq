@@ -45,20 +45,7 @@ import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 
-import static org.wso2.integration.connector.utils.RabbitMQConstants.CLIENT_ID;
-import static org.wso2.integration.connector.utils.RabbitMQConstants.CLIENT_SECRET;
-import static org.wso2.integration.connector.utils.RabbitMQConstants.ConnectionRecoveryPolicy;
-import static org.wso2.integration.connector.utils.RabbitMQConstants.OAUTH2_PASSWORD;
-import static org.wso2.integration.connector.utils.RabbitMQConstants.OAUTH2_PASSWORD_GRANT_TYPE;
-import static org.wso2.integration.connector.utils.RabbitMQConstants.OAUTH2_USERNAME;
-import static org.wso2.integration.connector.utils.RabbitMQConstants.SASL_MECHANISM;
-import static org.wso2.integration.connector.utils.RabbitMQConstants.SERVER_TLS;
-import static org.wso2.integration.connector.utils.RabbitMQConstants.SERVER_TRUSTSTORE;
-import static org.wso2.integration.connector.utils.RabbitMQConstants.SERVER_TRUSTSTORE_PASSWORD;
-import static org.wso2.integration.connector.utils.RabbitMQConstants.SERVER_TRUSTSTORE_TYPE;
-import static org.wso2.integration.connector.utils.RabbitMQConstants.SERVER_URLS;
-import static org.wso2.integration.connector.utils.RabbitMQConstants.TOKEN_ENDPOINT;
-import static org.wso2.integration.connector.utils.RabbitMQConstants.VIRTUAL_HOST;
+import static org.wso2.integration.connector.utils.RabbitMQConstants.*;
 
 /**
  * This class is responsible for setting up and managing RabbitMQ connections.
@@ -210,6 +197,8 @@ public class RabbitMQConnectionSetup {
                 CLIENT_SECRET,
                 connectionSettings.oauth2()::clientSecret
         );
+
+        connectionSettings.oauth2().parameter(SCOPE_PARAMETER, oAuth2Config.getScope());
 
         connectionSettings.oauth2().grantType(oAuth2Config.getGrantType());
 
