@@ -180,29 +180,34 @@ public class RabbitMQOAuth2Config {
         }
     }
 
-   /**
-    * Retrieves the scope for OAuth2 authentication.
-    *
-    * @return The scope.
-    */
+    /**
+     * Retrieves the scope for OAuth2 authentication.
+     *
+     * @return The scope.
+     */
     public String getScope() {
         return scope;
     }
 
-   /**
-      * Sets the scope for OAuth2 authentication.
-      * Validates the scope format and throws an exception if it is invalid or not set.
-      *
-      * @param scope The scope.
-      * @throws RabbitMQConnectorException If the scope is empty, null, or has an invalid format.
-      */
+    /**
+     * Sets the scope for OAuth2 authentication.
+     * Scope is optional; when provided, it must be a space-delimited list of scope tokens.
+     *
+     * @param scope The scope value (optional).
+     * @throws RabbitMQConnectorException If the scope has an invalid format.
+     */
     public void setScope(String scope) throws RabbitMQConnectorException {
-        if (StringUtils.isEmpty(scope)) {
-            throw new RabbitMQConnectorException("Mandatory parameter 'scope' is not set.");
-        } else if (!scope.matches("^[\\w\\-]+(\\s[\\w\\-]+)*$")) {
-            throw new RabbitMQConnectorException("Parameter 'scope' has an invalid format.");
-        } else {
-            this.scope = scope; // Set the scope if it passes both checks
+        String normalizedScope = StringUtils.trimToNull(scope);
+        if (normalizedScope == null) {
+            this.scope = null;
+            return;
         }
+
+        // RFC 6749: scope is a space-delimited list of tokens; tokens must not contain SP, DQUOTE or "\\".
+        if (!normalizedScope.matches("^[^\\s\"\\\\]+(\\s+[^\\s\"\\\\]+)*$")) {
+            throw new RabbitMQConnectorException("Parameter 'scope' has an invalid format.");
+        }
+
+        this.scope = normalizedScope;
     }
 }

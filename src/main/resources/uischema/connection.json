@@ -189,7 +189,7 @@
               "inputType": "stringOrExpression",
               "defaultValue": "",
               "required": "false",
-              "helpTip": "Scopes to include in the OAuth 2.0 token request (space-separated if multiple).",
+              "enableCondition": [{"oAuth2Enabled": true}],
               "placeholder": "scope1 scope2"
             }
           }

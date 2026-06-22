@@ -198,8 +198,9 @@ public class RabbitMQConnectionSetup {
                 connectionSettings.oauth2()::clientSecret
         );
 
-        connectionSettings.oauth2().parameter(SCOPE_PARAMETER, oAuth2Config.getScope());
-
+        if (StringUtils.isNotBlank(oAuth2Config.getScope())) {
+            connectionSettings.oauth2().parameter(SCOPE_PARAMETER, oAuth2Config.getScope());
+        }
         connectionSettings.oauth2().grantType(oAuth2Config.getGrantType());
 
         // Set username and password for password grant type
