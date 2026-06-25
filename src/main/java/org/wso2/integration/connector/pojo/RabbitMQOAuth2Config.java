@@ -204,7 +204,7 @@ public class RabbitMQOAuth2Config {
         }
 
         // RFC 6749: scope is a space-delimited list of tokens; tokens must not contain SP, DQUOTE or "\\".
-        if (!normalizedScope.matches("^[^\\s\"\\\\]+(\\s+[^\\s\"\\\\]+)*$")) {
+        if (!normalizedScope.matches("^[\\S]+([ ][\\S]+)*$")) {
             throw new RabbitMQConnectorException("Parameter 'scope' has an invalid format.");
         }
 
